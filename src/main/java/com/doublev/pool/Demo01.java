@@ -1,15 +1,34 @@
 package com.doublev.pool;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
- * @ Project: juc
- * @ Package: com.doublev.pool
- * @ Title 标题（要求能简洁地表达出类的功能和职责）
- * @ Description: 描述（简要描述类的职责、实现方式、使用注意事项等）
- * @ author : qw
- * @ CreateDate: 2021/3/6 14:40
- * @ Version: 1.0
- * @ Copyright: Copyright (c) 2021
- * @ History: 修订历史（历次修订内容、修订人、修订时间等）
+ *
+ * Executors 工具类，3大方法
+ * 使用了线程池之后，使用线程池来新线程
  */
 public class Demo01 {
+    public static void main(String[] args) {
+        // 单个线程
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        // 固定线程
+        //ExecutorService executorService = Executors.newFixedThreadPool(5);
+        // 可伸缩，视情况而定
+        //ExecutorService executorService = Executors.newCachedThreadPool();
+
+        try {
+            for (int i = 0; i < 100; i++) {
+                executorService.execute(() -> {
+                    System.out.println(Thread.currentThread().getName() + " ok ");
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 线程池用完需要手动关闭
+            executorService.shutdown();
+        }
+
+    }
 }

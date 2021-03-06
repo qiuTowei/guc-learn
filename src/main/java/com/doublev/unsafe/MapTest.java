@@ -1,5 +1,10 @@
 package com.doublev.unsafe;
 
+        import java.util.HashMap;
+        import java.util.Map;
+        import java.util.UUID;
+        import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * @ Project: juc
  * @ Package: com.doublev.unsafe
@@ -12,4 +17,19 @@ package com.doublev.unsafe;
  * @ History: 修订历史（历次修订内容、修订人、修订时间等）
  */
 public class MapTest {
+    public static void main(String[] args) {
+
+        //Map<String,String> map = new HashMap<>();
+        // 解决方案
+        Map<String,String> map = new ConcurrentHashMap<>();
+        for (int i = 0; i < 10; i++) {
+            new Thread(() -> {
+                // 依然有 ConcurrentModificationException并发修改异常
+                map.put(Thread.currentThread().getName(), UUID.randomUUID().toString().substring(0,5));
+                System.out.println(map);
+            },String.valueOf(i)).start();
+        }
+
+
+    }
 }

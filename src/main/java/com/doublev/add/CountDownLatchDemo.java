@@ -1,15 +1,25 @@
 package com.doublev.add;
 
+        import java.util.concurrent.CountDownLatch;
+
 /**
- * @ Project: juc
- * @ Package: com.doublev.add
- * @ Title 标题（要求能简洁地表达出类的功能和职责）
- * @ Description: 描述（简要描述类的职责、实现方式、使用注意事项等）
- * @ author : qw
- * @ CreateDate: 2021/3/5 15:49
- * @ Version: 1.0
- * @ Copyright: Copyright (c) 2021
- * @ History: 修订历史（历次修订内容、修订人、修订时间等）
+ * 计数器
  */
 public class CountDownLatchDemo {
+    public static void main(String[] args) throws InterruptedException {
+        CountDownLatch countDownLatch = new CountDownLatch(6);
+        for (int i = 0; i < 6; i++) {
+            new Thread(() -> {
+                System.out.println(Thread.currentThread().getName() + " go out  " + countDownLatch.getCount());
+                // -1
+                countDownLatch.countDown();
+            },String.valueOf(i)).start();
+        }
+        // 等待计数器归零，然后再向下执行
+        countDownLatch.await();
+
+        System.out.println("close door");
+
+
+    }
 }
