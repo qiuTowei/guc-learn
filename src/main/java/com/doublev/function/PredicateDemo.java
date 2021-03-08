@@ -1,15 +1,31 @@
 package com.doublev.function;
 
+import java.util.function.Predicate;
+
 /**
- * @ Project: juc
- * @ Package: com.doublev.function
- * @ Title 标题（要求能简洁地表达出类的功能和职责）
- * @ Description: 描述（简要描述类的职责、实现方式、使用注意事项等）
- * @ author : qw
- * @ CreateDate: 2021/3/8 10:39
- * @ Version: 1.0
- * @ Copyright: Copyright (c) 2021
- * @ History: 修订历史（历次修订内容、修订人、修订时间等）
+ * Predicate 断言函数式接口
+ *
  */
 public class PredicateDemo {
+    public static void main(String[] args) {
+        // 判断字符串是否为空
+        Predicate<String> predicate = new Predicate<String>() {
+            /**
+             * Evaluates this predicate on the given argument.
+             *
+             * @param o the input argument
+             * @return {@code true} if the input argument matches the predicate,
+             * otherwise {@code false}
+             */
+            @Override
+            public boolean test(String o) {
+                return o.isEmpty();
+            }
+        };
+        System.out.println(predicate.test(""));
+        // lambda简化
+        Predicate<String> predicate1 = (str) -> str.isEmpty();
+        System.out.println(predicate1.test("hello"));
+
+    }
 }

@@ -1,15 +1,35 @@
 package com.doublev.jmm;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
- * @ Project: juc
- * @ Package: com.doublev.jmm
- * @ Title 标题（要求能简洁地表达出类的功能和职责）
- * @ Description: 描述（简要描述类的职责、实现方式、使用注意事项等）
- * @ author : qw
- * @ CreateDate: 2021/3/8 16:06
- * @ Version: 1.0
- * @ Copyright: Copyright (c) 2021
- * @ History: 修订历史（历次修订内容、修订人、修订时间等）
+ * volatile
+ * 不保证原子行
  */
 public class VolatileDemo02 {
+
+    private volatile static AtomicInteger num = new AtomicInteger();
+    public static void add() {
+        //num++;
+        // AtomicInteger +1操作  CAS
+        num.getAndIncrement();
+}
+
+    public static void main(String[] args) {
+        // 理论上结果为20000
+        // 实际结果为小于20000的随机值
+        // volatile 不保证原子性
+        for (int i = 0; i < 20; i++) {
+            new Thread(() -> {
+                for (int j = 0; j < 1000; j++) {
+                    add();
+                }
+            }).start();
+        }
+        while (Thread.activeCount() > 2) {
+            // main gc 线程
+            Thread.yield();
+        }
+        System.out.println((Thread.currentThread().getName() + num));
+    }
 }

@@ -1,15 +1,26 @@
 package com.doublev.function;
 
+import java.util.function.Consumer;
+
 /**
- * @ Project: juc
- * @ Package: com.doublev.function
- * @ Title 标题（要求能简洁地表达出类的功能和职责）
- * @ Description: 描述（简要描述类的职责、实现方式、使用注意事项等）
- * @ author : qw
- * @ CreateDate: 2021/3/8 10:37
- * @ Version: 1.0
- * @ Copyright: Copyright (c) 2021
- * @ History: 修订历史（历次修订内容、修订人、修订时间等）
+ *
+ * 消费性接口 -> 一个参数，无返回值
  */
 public class ConsumerDemo {
+    public static void main(String[] args) {
+        Consumer<String> consumer = new Consumer<String>() {
+            /**
+             * Performs this operation on the given argument.
+             *
+             * @param o the input argument
+             */
+            @Override
+            public void accept(String o) {
+                System.out.println("消费了 => " + o);
+            }
+        };
+        consumer.accept("好多钱");
+        Consumer<String> consumer1 = (str) -> System.out.println(str);
+        consumer1.accept("传入参数");
+    }
 }

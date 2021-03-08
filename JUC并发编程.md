@@ -1,18 +1,20 @@
+
+
 # JUC并发编程
 
 ### 1、什么是JUC
 
 java.util 工具包
 
-![image-20210304091458939](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210304091458939.png)
+![image-20210304091458939](https://gitee.com/doubleV/cloudimage/raw/master/juc/hu7X3lEIjdrCz9x.png)
 
 **业务：普通的线程代码 Thread**
 
 **Runable** 没有返回值，效率相比Callable相对较低
 
-![image-20210304092241264](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210304092241264.png)
+![image-20210304092241264](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210304092241264.png)
 
-<img src="C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210304092419872.png" alt="image-20210304092419872" style="zoom:80%;" />
+<img src="https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210304092419872.png" alt="image-20210304092419872" style="zoom:80%;" />
 
 
 
@@ -199,11 +201,11 @@ class Ticket {
 
 > Lock 接口
 
-![image-20210304101209613](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210304101209613.png)
+![image-20210304101209613](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210304101209613.png)
 
 ![image-20210304101300756](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210304101300756.png)
 
-![image-20210304101858807](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210304101858807.png)
+![image-20210304101858807](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210304101858807.png)
 
 公平锁：公平，先来后到
 
@@ -371,7 +373,7 @@ class Data {
 
 
 
-![image-20210304154200489](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210304154200489.png)
+![image-20210304154200489](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210304154200489.png)
 
 **if判断改成while循环**
 
@@ -462,7 +464,7 @@ class Data {
 
 > JUC版生产者消费者问题
 
-![image-20210304155257214](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210304155257214.png)
+![image-20210304155257214](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210304155257214.png)
 
 ```Java
  class BoundedBuffer {
@@ -599,7 +601,7 @@ class Data {
 
 > Condition 的优势：精准的通知和唤醒线程
 
-![image-20210304161432427](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210304161432427.png).
+![image-20210304161432427](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210304161432427.png).
 
 代码测试：
 
@@ -1079,7 +1081,7 @@ public class MapTest {
 
 
 
-![image-20210305151118926](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210305151118926.png)
+![image-20210305151118926](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210305151118926.png)
 
 与Runnable差异
 
@@ -1091,9 +1093,9 @@ public class MapTest {
 
 
 
-![image-20210305152549305](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210305152549305.png)
+![image-20210305152549305](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210305152549305.png)
 
-![image-20210305152658530](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210305152658530.png)
+![image-20210305152658530](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210305152658530.png)
 
 
 
@@ -1170,7 +1172,7 @@ class MyThread implements Callable<String> {
 
 #### 8.1、CountDownLatch
 
-![image-20210305161033350](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210305161033350.png)
+![image-20210305161033350](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210305161033350.png)
 
 
 
@@ -1213,7 +1215,7 @@ countDownLatch.await();
 
 #### 8.2、CyclicBarrier
 
-![image-20210305162725583](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210305162725583.png)
+![image-20210305162725583](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210305162725583.png)
 
 加法计数器
 
@@ -1265,7 +1267,7 @@ public class CyclicBarrierDemo {
 
 Semaphore：信号量
 
-![image-20210305164647324](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210305164647324.png)
+![image-20210305164647324](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210305164647324.png)
 
 3车位 6辆车 抢车位限流
 
@@ -1326,7 +1328,7 @@ public class SemaphoreDemo {
 
 
 
-![image-20210305173217008](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210305173217008.png)
+![image-20210305173217008](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210305173217008.png)
 
 代码实现：
 
@@ -1441,13 +1443,13 @@ class MyCache {
 
 阻塞队列：
 
-![image-20210306100346614](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210306100346614.png)
+![image-20210306100346614](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210306100346614.png)
 
 
 
 **BlockingQueue**
 
-![image-20210306101424267](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210306101424267.png)
+![image-20210306101424267](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210306101424267.png)
 
 什么情况会使用阻塞队列：多线程，线程池
 
@@ -1664,7 +1666,7 @@ public class SynchronousQueueDemo {
 
 > 线程池：三大方法
 
-![image-20210306143926616](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210306143926616.png)
+![image-20210306143926616](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210306143926616.png)
 
 ```Java
 package com.doublev.pool;
@@ -1758,7 +1760,7 @@ public ThreadPoolExecutor(int corePoolSize, // 核心线程池大小
 
 分析：
 
-![image-20210306145752916](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210306145752916.png)
+![image-20210306145752916](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210306145752916.png)
 
 > 手动创建一个线程池
 
@@ -1822,7 +1824,7 @@ public class Demo02 {
 
 > 四种拒绝策略
 
-![image-20210306150153712](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210306150153977.png)
+![image-20210306150153712](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210306150153977.png)
 
 ```Java
 /**
@@ -1854,7 +1856,7 @@ int i1 = Runtime.getRuntime().availableProcessors();
 
 
 
-12、四大函数式接口（必须要会）
+### 12、四大函数式接口（必须要会）
 
 > 函数式接口
 
@@ -1864,23 +1866,658 @@ public interface Runnable {
     public abstract void run();
 }
 // 作用：简化编程模型
+// 基础
+// 泛型、枚举、反射
+// lambda表达式、链式编程、函数式接口、Stream流式计算
 ```
 
-![image-20210306153325787](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210306153325787.png).
+
+
+![image-20210306153325787](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210306153325787.png).
+
+> **Function 函数型接口**
+
+![image-20210308102842838](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308102842838.png)
 
 
 
-> lambda 表达式
+```Java
+package com.doublev.function;
+
+        import java.util.function.Function;
+
+/**
+ * Function 函数式接口，有一个输入参数，一个输出
+ *
+ *
+ */
+public class FunctionDemo {
+    public static void main(String[] args) {
+        Function<String, String> function = new Function<String, String>() {
+            /**
+             * Applies this function to the given argument.
+             *
+             * @param o the function argument
+             * @return the function result
+             */
+            @Override
+            public String apply(String o) {
+                return o;
+            }
+        };
+        // lambda表达式简化
+        Function<String,String> function1 = (str) -> str;
+        System.out.println(function.apply("3333"));
+        System.out.println(function1.apply("function1"));
+    }
+}
+```
+
+> **Predicate 断言型接口**
+
+![image-20210308104638846](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308104638846.png)
+
+```Java
+package com.doublev.function;
+
+import java.util.function.Predicate;
+
+/**
+ * Predicate 断言函数式接口
+ *
+ */
+public class PredicateDemo {
+    public static void main(String[] args) {
+        // 判断字符串是否为空
+        Predicate<String> predicate = new Predicate<String>() {
+            /**
+             * Evaluates this predicate on the given argument.
+             *
+             * @param o the input argument
+             * @return {@code true} if the input argument matches the predicate,
+             * otherwise {@code false}
+             */
+            @Override
+            public boolean test(String o) {
+                return o.isEmpty();
+            }
+        };
+        System.out.println(predicate.test(""));
+        // lambda简化
+        Predicate<String> predicate1 = (str) -> str.isEmpty();
+        System.out.println(predicate1.test("hello"));
+
+    }
+}
+
+```
+
+
+
+> **Consumer 消费性接口**
+
+![image-20210308105041615](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308105041615.png)
+
+
+
+```Java
+package com.doublev.function;
+
+import java.util.function.Consumer;
+
+/**
+ *
+ * 消费性接口 -> 一个参数，无返回值
+ */
+public class ConsumerDemo {
+    public static void main(String[] args) {
+        Consumer<String> consumer = new Consumer<String>() {
+            /**
+             * Performs this operation on the given argument.
+             *
+             * @param o the input argument
+             */
+            @Override
+            public void accept(String o) {
+                System.out.println("消费了 => " + o);
+            }
+        };
+        consumer.accept("好多钱");
+        Consumer<String> consumer1 = (str) -> System.out.println(str);
+        consumer1.accept("传入参数");
+    }
+}
+```
+
+
+
+> **Supplier 供给型接口**
+
+![image-20210308105745482](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308105745482.png)
+
+
+
+```Java
+package com.doublev.function;
+
+import java.util.function.Supplier;
+
+/**
+ * 供给型 无参数，有返回值
+ * 
+ */
+public class SupplierDemo {
+    public static void main(String[] args) {
+        Supplier<String> supplier = new Supplier<String>() {
+            /**
+             * Gets a result.
+             *
+             * @return a result
+             */
+            @Override
+            public String get() {
+                return "返回供给";
+            }
+        };
+        System.out.println(supplier.get());
+        // lambda简化
+        Supplier<String> supplier1 = () -> "再次返回供给";
+        System.out.println(supplier1.get());
+
+    }
+}
+```
+
+
+
+### 13、Stream 流式计算
+
+> 什么是Stream流式计算
+
+大数据：存储+计算
+
+集合、MySQL本质是存储数据
+
+流用来做计算
+
+![image-20210308112539337](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308112539337.png)
+
+```Java
+package com.doublev.stream;
+
+import java.util.stream.Stream;
+
+/**
+ * stream 流式计算
+ * 对下面5个用户进行筛选（一行代码，1分钟解决）
+ * 1、ID必须为偶数
+ * 2、年龄必须小于23岁
+ * 3、用户名转为大写字母
+ * 4、用户名字母倒序
+ * 5、只输出一个用户
+ */
+public class StreamTest {
+    public static void main(String[] args) {
+        // 5个用户
+        User a = new User(1, "a", 20);
+        User b = new User(2, "b", 21);
+        User c = new User(3, "c", 22);
+        User d = new User(4, "d", 23);
+        User e = new User(5, "e", 24);
+        // 数据交给流处理
+        Stream.of(a, b, c, d, e)
+                // 过滤
+                .filter(u -> u.getId() % 2 == 0 && u.getAge() < 23)
+                //
+                .peek(u -> u.setName(u.getName().toUpperCase()))
+                // 排序
+                .sorted((p1, p2) -> p2.getName().compareTo(p1.getName()))
+                // 限制
+                .limit(1)
+                .forEach(System.out::println);
+    }
+}
+```
+
+
+
+### 14、ForkJoin
+
+> 什么是ForkJoin
+
+ForkJoin是JDK1.7后出现，并行执行任务，提高程序效率（适合大数据量使用）
+
+大任务拆分为小任务执行
+
+![image-20210308112845605](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308112845605.png)
+
+
+
+**ForkJoin 特点：工作窃取（底层维护双端队列）**
+
+如下图，A，B两个线程，B线程完成任务之后，会从A线程队列的另一端窃取任务
+
+![image-20210308113117287](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308113117287.png).
+
+
+
+> ForkJoin操作
+
+**ForkJoinPool**的执行方法
+
+![image-20210308134816964](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308134816964.png).
+
+参数：**ForkJoinTask**
+
+![image-20210308135346763](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308135346763.png).
+
+测试类
+
+```Java
+package com.doublev.forkjoin;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.stream.LongStream;
+
+/**
+ * 测试方法
+ */
+public class Test {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+
+        long startTime = System.currentTimeMillis();
+        /**
+         * 结果 => 499999999500000000
+         * 一共耗时 = 8755
+         *
+         */
+        //Long sum = test1();
+
+        /**
+         * 结果 => 499934463999828390
+         * 一共耗时 = 5227
+         */
+        //Long sum = test2();
+        /**
+         *结果 => 499999999500000000
+         * 一共耗时 = 238
+         */
+        Long sum = test3();
+        System.out.println("结果 => " + sum);
+        System.out.println("一共耗时 = " + (System.currentTimeMillis() - startTime));
+
+    }
+
+    /**
+     * 普通方法
+     * @return long
+     */
+    public static Long test1() {
+        Long sum = 0L;
+        for (Long i = 1L; i <= 10_0000_0000; i++) {
+            sum += i;
+        }
+        return sum;
+    }
+
+    /**
+     * ForkJoin 方法
+     * @return long
+     */
+    public static Long test2() throws ExecutionException, InterruptedException {
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        ForkJoinTask<Long> task = new ForkJoinDemo(0L, 10_0000_0000L);
+        // 提交
+        ForkJoinTask<Long> submit = forkJoinPool.submit(task);
+        return submit.get();
+    }
+
+    /**
+     * stream 并行流
+     * @return long
+     */
+    public static Long test3() {
+        return LongStream.range(0L, 10_0000_0000L).parallel().reduce(0, Long::sum);
+    }
+}
+```
+
+ForkJoin任务
+
+```Java
+package com.doublev.forkjoin;
+
+import java.util.concurrent.RecursiveTask;
+
+/**
+ * 大数据量的求和任务
+ * 如何使用 ForkJoin
+ * ForkJoinPool
+ * 计算任务 ：forkJoin.execute(ForkJoinTask<?> task)
+ *
+ */
+public class ForkJoinDemo extends RecursiveTask<Long> {
+    private Long start;
+    private Long end;
+
+    // 临界值
+    private Long temp = 10000L;
+
+    public ForkJoinDemo(Long start, Long end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    /**
+     * 实现的计算方法
+     * @return Long
+     */
+    @Override
+    protected Long compute() {
+        if ((end-start) < temp) {
+            Long sum = 0L;
+            for (Long i = start; i < end; i++) {
+                sum += i;
+            }
+            return sum;
+        }else {
+            // 使用ForkJoin
+            // 求中间值
+            Long middle = (start + end) / 2;
+            // 拆分任务
+            ForkJoinDemo task1 = new ForkJoinDemo(start, middle);
+            ForkJoinDemo task2 = new ForkJoinDemo(middle + 1, end);
+            // 任务压入线程队列
+            task1.fork();
+            task2.fork();
+            // 获取结果
+            return task1.join() + task2.join();
+        }
+    }
+}
+```
+
+### 15、异步回调
+
+> Future 设计的初衷，对将来的某个事件结果进行建模
+
+![image-20210308150934612](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308150934612.png)
+
+![image-20210308150955669](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308150955669.png).
+
+
+
+```Java
+package com.doublev.future;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
+/**
+ *
+ * 异步调用：Ajax
+ * 异步执行
+ * 成功回调
+ * 失败回调
+ */
+public class Demo01 {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        // 发起一个请求
+        // 没有返回值的异步回调
+        CompletableFuture<Void> completableFuture = CompletableFuture.runAsync(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println((Thread.currentThread().getName() + " runAsync => void"));
+        });
+        System.out.println(("1111"));
+        completableFuture.get();
+
+        // 有返回值的异步回调
+        CompletableFuture<Integer> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {
+            System.out.println((Thread.currentThread().getName() + " supplyAsync => Integer"));
+            int i = 10/0;
+            return 1024;
+        });
+        System.out.println(integerCompletableFuture.whenComplete((t, u) -> {
+            // 正确的返回结果
+            System.out.println(t);
+            // 错误信息
+            System.out.println(u);
+        }).exceptionally((e) -> {
+            // 错误
+            System.out.println(e.getMessage());
+            // 错误的返回结果
+            return 404;
+        }).get());
+    }
+}
+```
+
+### 16、JMM
+
+> 请你谈谈对volatile的理解
+
+Volatile是Java虚拟机提供的**轻量级的同步机制**
+
+1、保证可见性
+
+2、**不保证原子性**
+
+3、禁止指令重排
+
+> 什么是JMM
+
+JMM：Java内存模型，是一种约定，概念。并不实际存在
+
+**关于JMM的一些同步约定：**
+
+1、 线程解锁前，必须把共享变量**立刻**写回主存
+
+2、线程加锁前，必须读取主存中最新值到工作内存中
+
+3、加锁和解锁是同一把锁
+
+线程 => 工作内存 => 主存
+
+四组**八种操作**，如下图：
+
+![image-20210308154056448](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308154056448.png)
+
+第一组：read，读取主存中的数据；load，加载到工作内存
+
+第二组：use，工作引擎使用；assign，使用完放入工作内存
+
+第三组：write，写入主存；store，存储数据
+
+第四组：lock，加锁；unlock，解锁
+
+![image-20210308154544204](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308154544204.png)
+
+
+
+**内存交互操作有8种，虚拟机实现必须保证每一个操作都是原子的，不可在分的（对于double和long类型的变量来说，load、store、read和write操作在某些平台上允许例外）**
+
+* lock   （锁定）：作用于主内存的变量，把一个变量标识为线程独占状态
+
+- unlock （解锁）：作用于主内存的变量，它把一个处于锁定状态的变量释放出来，释放后的变量才可以被其他线程锁定
+- read  （读取）：作用于主内存变量，它把一个变量的值从主内存传输到线程的工作内存中，以便随后的load动作使用
+- load   （载入）：作用于工作内存的变量，它把read操作从主存中变量放入工作内存中
+- use   （使用）：作用于工作内存中的变量，它把工作内存中的变量传输给执行引擎，每当虚拟机遇到一个需要使用到变量的值，就会使用到这个指令
+- assign （赋值）：作用于工作内存中的变量，它把一个从执行引擎中接受到的值放入工作内存的变量副本中
+- store  （存储）：作用于主内存中的变量，它把一个从工作内存中一个变量的值传送到主内存中，以便后续的write使用
+- write 　（写入）：作用于主内存中的变量，它把store操作从工作内存中得到的变量的值放入主内存的变量中
+
+**JMM对这八种指令的使用，制定了如下规则：**
+
+* 不允许read和load、store和write操作之一单独出现。即使用了read必须load，使用了store必须write
+
+- 不允许线程丢弃他最近的assign操作，即工作变量的数据改变了之后，必须告知主存
+- 不允许一个线程将没有assign的数据从工作内存同步回主内存
+- 一个新的变量必须在主内存中诞生，不允许工作内存直接使用一个未被初始化的变量。就是怼变量实施use、store操作之前，必须经过assign和load操作
+- 一个变量同一时间只有一个线程能对其进行lock。多次lock后，必须执行相同次数的unlock才能解锁
+- 如果对一个变量进行lock操作，会清空所有工作内存中此变量的值，在执行引擎使用这个变量前，必须重新load或assign操作初始化变量的值
+- 如果一个变量没有被lock，就不能对其进行unlock操作。也不能unlock一个被其他线程锁住的变量
+- 对一个变量进行unlock操作之前，必须把此变量同步回主内存
+
+　　JMM对这八种操作规则和对[volatile的一些特殊规则](https://www.cnblogs.com/null-qige/p/8569131.html)就能确定哪里操作是线程安全，哪些操作是线程不安全的了。但是这些规则实在复杂，很难在实践中直接分析。所以一般我们也不会通过上述规则进行分析。更多的时候，使用java的happen-before规则来进行分析。
+
+
+
+![image-20210308155704932](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308155704932.png)
+
+问题：程序不知道主内存中值已经被修改
+
+所以，引出volatile 
+
+
+
+### 17、Volatile
+
+> 可见性
+
+```java
+package com.doublev.jmm;
+
+import java.util.concurrent.TimeUnit;
+
+/**
+ * volatile
+ * 1、保证可见性
+ *
+ */
+public class VolatileDemo01 {
+    // 不加volatile,程序死循环
+    // 加了volatile,保证了可见性
+    private static volatile Integer num = 0;
+
+    public static void main(String[] args) {
+        new Thread(() -> {
+            while (num == 0){
+
+            }
+        }).start();
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        num = 1;
+        System.out.println(num);
+    }
+}
+```
+
+> 不保证原子性
+
+原子性：不可分割，要么同时成功，要么同时失败
+
+```java
+package com.doublev.jmm;
+
+/**
+ * volatile
+ * 不保证原子行
+ */
+public class VolatileDemo02 {
+    private volatile static int num = 0;
+    public static void add() {
+        num++;
+    }
+
+    public static void main(String[] args) {
+        // 理论上结果为20000
+        // 实际结果为小于20000的随机值
+        // volatile 不保证原子性
+        for (int i = 0; i < 20; i++) {
+            new Thread(() -> {
+                for (int j = 0; j < 1000; j++) {
+                    add();
+                }
+            }).start();
+        }
+        while (Thread.activeCount() > 2) {
+            // main gc 线程
+            Thread.yield();
+        }
+        System.out.println((Thread.currentThread().getName() + num));
+    }
+}
+```
+
+上述的代码，如果不加lock和synchronized，怎么保证原子性？
+
+**使用原子类来处理**
+
+![image-20210308163536212](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308163536212.png).
+
+**这些类的底层都直接与操作系统操作**
+
+```java
+package com.doublev.jmm;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * volatile
+ * 不保证原子行
+ */
+public class VolatileDemo02 {
+
+    private volatile static AtomicInteger num = new AtomicInteger();
+    public static void add() {
+        //num++;
+        // AtomicInteger +1操作  CAS
+        num.getAndIncrement();
+}
+
+    public static void main(String[] args) {
+        // 理论上结果为20000
+        // 实际结果为小于20000的随机值
+        // volatile 不保证原子性
+        for (int i = 0; i < 20; i++) {
+            new Thread(() -> {
+                for (int j = 0; j < 1000; j++) {
+                    add();
+                }
+            }).start();
+        }
+        while (Thread.activeCount() > 2) {
+            // main gc 线程
+            Thread.yield();
+        }
+        System.out.println((Thread.currentThread().getName() + num));
+    }
+}
+```
+
+
+
+> 指令重排
+
+处理器会按照自有逻辑重新排列代码的执行顺序
+
+进行指令重排的时候会考虑**数据之间的依赖性**
 
 
 
 
 
-> 链式编程
+### 19、彻底玩转单例模式
 
+### 20、深入理解CAS
 
+### 21、原子引用
 
+#### 1、公平锁，非公平锁
 
+#### 2、可重入锁
 
-> Stream 流式计算
+#### 3、自旋锁
 
+#### 4、死锁

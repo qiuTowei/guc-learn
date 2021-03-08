@@ -1,15 +1,51 @@
 package com.doublev.future;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
 /**
- * @ Project: juc
- * @ Package: com.doublev.future
- * @ Title 标题（要求能简洁地表达出类的功能和职责）
- * @ Description: 描述（简要描述类的职责、实现方式、使用注意事项等）
- * @ author : qw
- * @ CreateDate: 2021/3/8 14:48
- * @ Version: 1.0
- * @ Copyright: Copyright (c) 2021
- * @ History: 修订历史（历次修订内容、修订人、修订时间等）
+ *
+ * 异步调用：Ajax
+ * 异步执行
+ * 成功回调
+ * 失败回调
  */
 public class Demo01 {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        // 发起一个请求
+        // 没有返回值的异步回调
+        CompletableFuture<Void> completableFuture = CompletableFuture.runAsync(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println((Thread.currentThread().getName() + " runAsync => void"));
+        });
+        System.out.println(("1111"));
+        completableFuture.get();
+
+        // 有返回值的异步回调
+        CompletableFuture<Integer> integerCompletableFuture = CompletableFuture.supplyAsync(() -> {
+            System.out.println((Thread.currentThread().getName() + " supplyAsync => Integer"));
+            int i = 10/0;
+            return 1024;
+        });
+        System.out.println(integerCompletableFuture.whenComplete((t, u) -> {
+            // 正确的返回结果
+            System.out.println(t);
+            // 错误信息
+            System.out.println(u);
+        }).exceptionally((e) -> {
+            // 错误
+            System.out.println(e.getMessage());
+            // 错误的返回结果
+            return 404;
+        }).get());
+
+
+    }
+
+
 }

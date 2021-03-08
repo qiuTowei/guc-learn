@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
  * 3、禁止指令重排
  *
  */
-public class JmmDemo {
+public class VolatileDemo01 {
     // 不加volatile,程序死循环
     // 加了volatile,保证了可见性
     private static volatile Integer num = 0;

@@ -1,15 +1,49 @@
 package com.doublev.stream;
 
 /**
- * @ Project: juc
- * @ Package: com.doublev.stream
- * @ Title 标题（要求能简洁地表达出类的功能和职责）
- * @ Description: 描述（简要描述类的职责、实现方式、使用注意事项等）
- * @ author : qw
- * @ CreateDate: 2021/3/8 11:05
- * @ Version: 1.0
- * @ Copyright: Copyright (c) 2021
- * @ History: 修订历史（历次修订内容、修订人、修订时间等）
+ * 用户
  */
 public class User {
+    private Integer id;
+    private String name;
+    private Integer age;
+
+    public User(Integer id, String name, Integer age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 }

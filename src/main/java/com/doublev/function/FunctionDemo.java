@@ -1,15 +1,29 @@
 package com.doublev.function;
 
+        import java.util.function.Function;
+
 /**
- * @ Project: juc
- * @ Package: com.doublev.function
- * @ Title 标题（要求能简洁地表达出类的功能和职责）
- * @ Description: 描述（简要描述类的职责、实现方式、使用注意事项等）
- * @ author : qw
- * @ CreateDate: 2021/3/8 10:26
- * @ Version: 1.0
- * @ Copyright: Copyright (c) 2021
- * @ History: 修订历史（历次修订内容、修订人、修订时间等）
+ * Function 函数式接口，有一个输入参数，一个输出
+ *
+ *
  */
 public class FunctionDemo {
+    public static void main(String[] args) {
+        Function<String, String> function = new Function<String, String>() {
+            /**
+             * Applies this function to the given argument.
+             *
+             * @param o the function argument
+             * @return the function result
+             */
+            @Override
+            public String apply(String o) {
+                return o;
+            }
+        };
+        // lambda表达式简化
+        Function<String,String> function1 = (str) -> str;
+        System.out.println(function.apply("3333"));
+        System.out.println(function1.apply("function1"));
+    }
 }
