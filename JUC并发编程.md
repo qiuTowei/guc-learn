@@ -1,5 +1,3 @@
-
-
 # JUC并发编程
 
 ### 1、什么是JUC
@@ -203,7 +201,7 @@ class Ticket {
 
 ![image-20210304101209613](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210304101209613.png)
 
-![image-20210304101300756](C:\Users\ThinkPad\AppData\Roaming\Typora\typora-user-images\image-20210304101300756.png)
+![image-20210304101300756](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210304101300756.png)
 
 ![image-20210304101858807](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210304101858807.png)
 
@@ -2450,13 +2448,19 @@ public class VolatileDemo02 {
 }
 ```
 
+**num++代码分析**：num++不是线程安全
+
+![image-20210309095729980](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309095729980.png)
+
+
+
 上述的代码，如果不加lock和synchronized，怎么保证原子性？
 
 **使用原子类来处理**
 
 ![image-20210308163536212](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210308163536212.png).
 
-**这些类的底层都直接与操作系统操作**
+**这些类的底层操作直接与操作系统直接挂钩   unsafe类**
 
 ```java
 package com.doublev.jmm;
@@ -2500,24 +2504,668 @@ public class VolatileDemo02 {
 
 > 指令重排
 
-处理器会按照自有逻辑重新排列代码的执行顺序
+什么是指令重排：计算机并不是按你写程序的顺序执行，而是会按照自有逻辑重新排列代码的执行顺序
+
+源代码 -》 编译器优化重排 -》指令并行也可能会重排 -》内存系统重排 -》执行
+
+```Java
+int x = 1; //1
+int y = 2; //2
+x = x + 5; //3
+y = x * x; //4
+// 期望的执行顺序：1234
+// 实际的执行顺序可能是：1324、2134
+// 不可能是：4123，系统处理器进行指令重排会考虑数据之间的依赖性
+```
 
 进行指令重排的时候会考虑**数据之间的依赖性**
 
+**多线程情况下的指令重排：**
 
+a、b、c、d四个参数默认值为0：
+
+| 线程A | 线程B |
+| ----- | ----- |
+| x=a   | y=b   |
+| b=1   | a=2   |
+
+正常的结果：x=0;y=0；但是由于指令重排的影响：
+
+| 线程A | 线程B |
+| ----- | ----- |
+| b=1   | a=2   |
+| x=a   | y=b   |
+
+导致结果为：x=2;y=1;
+
+**volatile可以避免指令重排**
+
+内存屏障（CPU指令），作用：
+
+1、保证特定操作的执行顺序
+
+2、可以保证某些变量的内存可见性
+
+![image-20210309101628284](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309101628284.png).
+
+由上，Volatile可以保证可见性，不能保证原子性，由于内存屏障，可以保证避免指令重排现象的产生
+
+那么，Volatile在哪使用的最多？单例模式（DCL（Double Check Lock）懒汉式）
 
 
 
 ### 19、彻底玩转单例模式
 
+> 饿汉式
+
+```Java
+package com.doublev.singleton;
+
+/**
+ * 饿汉式
+ * 造成内存的浪费
+ * 一上来就加载所有的对象
+ *
+ */
+public class Hungry {
+    private Hungry() {
+
+    }
+    private static final Hungry HUNGRY = new Hungry();
+    public static Hungry getInstance() {
+        return HUNGRY;
+    }
+}
+```
+
+> DCL 懒汉式
+
+```Java
+package com.doublev.singleton;
+
+/**
+ * 懒汉式
+ * 单线程下没有问题，多线程会出现问题
+ *
+ */
+public class Lazy {
+
+    private static boolean doublev = false;
+    private Lazy() {
+        // 防止反射破坏
+        synchronized(Lazy.class) {
+            if (!doublev){
+                doublev = true;
+            }else{
+                throw new RuntimeException("不要试图破坏单例");
+            }
+        }
+    }
+    private volatile static Lazy LAZY;
+
+    public static Lazy getInstance1() {
+        if (LAZY == null) {
+            LAZY = new Lazy();
+        }
+        return LAZY;
+    }
+    // 双重检测锁 DCL
+    public static Lazy getInstance2() {
+        if (LAZY == null) {
+            synchronized (Lazy.class) {
+                if (LAZY == null) {
+                    LAZY = new Lazy();
+                    /**
+                     * DCL 依然还是会有问题
+                     * new Lazy() 不是一个原子性的操作
+                     * 1、分配内存空间
+                     * 2、执行构造方法，初始化对象
+                     * 3、把这个对象指向这个空间
+                     *
+                     * 指令重排导致执行顺序：123、132
+                     * 在LAZY 加Volatile
+                     */
+                }
+            }
+        }
+        return LAZY;
+    }
+
+
+    // 多线程并发下会出现问题
+    public static void main(String[] args) {
+        for (int i = 0; i < 5; i++) {
+            new Thread(() -> {
+                Lazy.getInstance1();
+            }).start();
+        }
+    }
+}
+```
+
+> 静态内部类
+
+```java
+package com.doublev.singleton;
+
+/**
+ *
+ * 静态内部类内部类
+ */
+public class Inner {
+    private Inner() {
+
+    }
+    public static Inner getInstance() {
+        return InnerClass.INNER;
+    }
+    public static class InnerClass {
+        private static final Inner INNER = new Inner();
+    }
+}
+```
+
+> 枚举类
+
+```java
+package com.doublev.singleton;
+
+/**
+ * 枚举类 JDK1.5
+ * 本身也是一个class类
+ */
+public enum  EnumSinleton {
+    INSTANCE;
+    public EnumSinleton getInstance() {
+        return INSTANCE;
+    }
+
+}
+```
+
+> 反射破坏单例
+
+```Java
+package com.doublev.singleton;
+
+import jdk.internal.org.objectweb.asm.TypeReference;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+
+/**
+ * 反射破坏单例
+ *
+ */
+public class Reflection2Singleton {
+    public static void main(String[] args) throws Exception {
+        // 正常方法获取懒汉式实例
+        //Lazy instance1 = Lazy.getInstance2();
+        // 反射获取
+        Field doublev = Lazy.class.getDeclaredField("doublev");
+        doublev.setAccessible(true);
+        Constructor<Lazy> declaredConstructors = Lazy.class.getDeclaredConstructor(null);
+        declaredConstructors.setAccessible(true);
+
+        Lazy instance1 = declaredConstructors.newInstance();
+        doublev.set(instance1,false);
+        Lazy instance2 = declaredConstructors.newInstance();
+        // 输出比较
+        System.out.println(instance1);
+        System.out.println(instance2);
+        /**
+         * com.doublev.singleton.Lazy@1540e19d
+         * com.doublev.singleton.Lazy@677327b6
+         * 输出结果不同，说明已破坏了单例
+         * 1、解决方案：
+         * 可以在私有方法加锁加判断，三重检查
+         * 但是，如果都使用反射new的对象，则三重判断也不生效
+         * 2、解决方案：
+         * 通过定义标志位的方式做判断（加密判断）
+         * 但是，如果通过反编译等方式，找到对应的标志位内容，通过反射设置Field还是能够破坏该方案
+         *
+         * 道高一尺魔高一丈，那么如果解决反射破坏单例的问题呢？
+         * 通过反射的 newInstance() 方法可以得知，枚举类无法被破坏
+         *
+         */
+
+        // 枚举测试
+        EnumSinleton instance11 = EnumSinleton.INSTANCE;
+        Constructor<EnumSinleton> declaredConstructor = EnumSinleton.class.getDeclaredConstructor(null);
+        declaredConstructor.setAccessible(true);
+        EnumSinleton instance22 = declaredConstructor.newInstance();
+        System.out.println(instance11);
+        System.out.println(instance22);
+        /**
+         * 通过反射破坏枚举出现错误
+         * Exception in thread "main" java.lang.NoSuchMethodException: com.doublev.singleton.EnumSinleton.<init>()
+         * 但是错误不是我们想要的结果（throw new IllegalArgumentException("Cannot reflectively create enum objects");）
+         * 通过分析枚举类的编译代码，发现枚举类的私有构造方法为有参构造
+         */
+        Constructor<EnumSinleton> declaredConstructor2 = EnumSinleton.class.getDeclaredConstructor(String.class,int.class);
+        declaredConstructor2.setAccessible(true);
+        EnumSinleton instance33 = declaredConstructor2.newInstance();
+        System.out.println(instance33);
+        // 此时才是我们想要的结果
+        // Exception in thread "main" java.lang.IllegalArgumentException: Cannot reflectively create enum objects
+        //	at java.lang.reflect.Constructor.newInstance(Constructor.java:417)
+    }
+}
+```
+
+查看反射 newInstance方法的源码：
+
+![image-20210309112630782](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309112630782.png)
+
+**分析探索枚举类**
+
+![image-20210309111210690](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309111210690.png)
+
+![image-20210309111100261](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309111100261.png)
+
+**枚举类型最终反编辑源码：**
+
+![image-20210309112009296](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309112009296.png)
+
+发现枚举类型的私有构造方法为有参构造
+
 ### 20、深入理解CAS
+
+> 什么是CAS
+
+
+
+```Java
+package com.doublev.cas;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class CASDemo {
+    public static void main(String[] args) {
+        AtomicInteger atomicInteger = new AtomicInteger(2020);
+        // 两个参数，期望值，要更新为的值
+        // 如果达到期望值，则把值更新为对应的值 CAS 是CPU的并发原语
+        System.out.println(atomicInteger.compareAndSet(2020, 2021));
+        System.out.println(atomicInteger.get());
+        System.out.println(atomicInteger.compareAndSet(2020, 2021));
+        System.out.println(atomicInteger.get());
+    }
+}
+```
+
+
+
+> unsafe
+
+![image-20210309115831335](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309115831335.png)
+
+
+
+
+
+![image-20210309133702738](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309133702738.png)
+
+
+
+![image-20210309133907280](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309133907280.png)
+
+CAS：比较当前工作内存中的值，和主内存的值，如果这个值是期望的，那么执行操作，如果不是就一直循环
+
+**缺点**：
+
+1、循环会耗时
+
+2、一次性只能保证一个共享变量的原子性
+
+3、会产生ABA问题
+
+
+
+> CAS：ABA问题
+
+两个线程a,b；期望值都是1，由于b线程执行速度更快，cas(1,3),又执行了cas(3,1)，对于a线程来说，它不知道中间值的修改过程
+
+![image-20210309135124352](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309135124352.png).
+
+```Java
+package com.doublev.cas;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class CASDemo {
+    public static void main(String[] args) {
+        AtomicInteger atomicInteger = new AtomicInteger(2020);
+        // 两个参数，期望值，要更新为的值
+        // 如果达到期望值，则把值更新为对应的值 CAS 是CPU的并发原语
+        // 捣乱的线程
+        System.out.println(atomicInteger.compareAndSet(2020, 2021));
+        System.out.println(atomicInteger.get());
+
+        System.out.println(atomicInteger.compareAndSet(2021, 2020));
+        System.out.println(atomicInteger.get());
+        
+        // 期望的线程
+        System.out.println(atomicInteger.compareAndSet(2020, 6666));
+        System.out.println(atomicInteger.get());
+    }
+}
+```
+
+> 如何解决？带版本号的原子引用
 
 ### 21、原子引用
 
+> 解决ABA问题，引入原子引用：乐观锁
+
+
+
+代码中遇到的问题，需要注意：
+
+**Integer使用了对象缓存机制，默认范围是 -128~127，推荐使用静态工厂方法valueOf获取对象实例，而不是new，因为valueOf使用缓存，而new一定会创建新的对象分配新的内存空间**
+
+![image-20210309142500763](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309142500763.png)
+
+```Java
+package com.doublev.cas;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicStampedReference;
+
+public class CASDemo2 {
+    public static void main(String[] args) {
+        // AtomicStampedReference 注意，如果泛型是一个包装类，注意对象的引用问题
+        AtomicStampedReference<Integer> atomicStampedReference = new AtomicStampedReference<>(1,1);
+
+        new Thread(() -> {
+            // 获得版本号
+            int stamp = atomicStampedReference.getStamp();
+            System.out.println(" a1 => " + stamp);
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // 带版本号CAS
+            atomicStampedReference.compareAndSet(1, 2,
+                    atomicStampedReference.getStamp(), atomicStampedReference.getStamp()+1);
+            System.out.println(" a2 => " + atomicStampedReference.getStamp());
+
+            atomicStampedReference.compareAndSet(2, 1,
+                    atomicStampedReference.getStamp(), atomicStampedReference.getStamp()+1);
+            System.out.println(" a3 => " + atomicStampedReference.getStamp());
+        },"a").start();
+
+        new Thread(() -> {
+            // 获得版本号
+            int stamp = atomicStampedReference.getStamp();
+            System.out.println(" b1 => " + stamp);
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // 带版本号CAS
+            atomicStampedReference.compareAndSet(1, 6,
+                    stamp, stamp+1);
+            System.out.println(" b2 => " + atomicStampedReference.getStamp());
+        },"b").start();
+
+    }
+}
+```
+
+
+
+### 22、各种锁的理解
+
 #### 1、公平锁，非公平锁
+
+公平锁：非常公平，不能插队，必须按照先来后到的顺序
+
+非公平锁：非常不公平，可以插队（默认）
+
+```Java
+public ReentrantLock() {
+        sync = new NonfairSync();
+}
+```
+
+
 
 #### 2、可重入锁
 
+可重入锁（递归锁）
+
+![image-20210309143704006](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309143704006.png)
+
+
+
+> Synchronized
+
+```Java
+package com.doublev.lock;
+
+/**
+ * 可重入锁
+ * synchronized
+ */
+public class Demo01 {
+    public static void main(String[] args) {
+        Phone1 phone1 = new Phone1();
+        new Thread(() -> {
+            phone1.sms();
+        },"A").start();
+        new Thread(() -> {
+            phone1.sms();
+        },"B").start();
+
+    }
+}
+
+class Phone1 {
+    public synchronized void sms() {
+        System.out.println(Thread.currentThread().getName() + " => sms");
+        call();
+    }
+    public synchronized void call() {
+        System.out.println(Thread.currentThread().getName() + " => call");
+    }
+}
+```
+
+> Lock
+
+```Java
+package com.doublev.lock;
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * 可重入锁
+ * Lock
+ */
+public class Demo02 {
+    public static void main(String[] args) {
+        Phone2 phone1 = new Phone2();
+        new Thread(() -> {
+            phone1.sms();
+        },"A").start();
+        new Thread(() -> {
+            phone1.sms();
+        },"B").start();
+
+    }
+}
+
+class Phone2 {
+    Lock lock = new ReentrantLock();
+    public  void sms() {
+        lock.lock();
+        // 需要注意，lock锁必须成对出现，有lock() ,必须要unlock(),否则会死锁
+        try {
+            System.out.println(Thread.currentThread().getName() + " => sms");
+            call();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+    public  void call() {
+        lock.lock();
+        try {
+            System.out.println(Thread.currentThread().getName() + " => call");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+
 #### 3、自旋锁
 
+![image-20210309151250101](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309151250101.png)
+
+
+
+
+
+```Java
+package com.doublev.lock;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
+/**
+ * 自旋锁 使用CAS
+ */
+public class SpinLock {
+    AtomicReference<Thread> atomicReference = new AtomicReference<>();
+    // 加锁
+    public void myLock() {
+        Thread thread = Thread.currentThread();
+        System.out.println((thread.getName() + "===> myLock"));
+
+        // 自旋锁
+        while (!atomicReference.compareAndSet(null, thread)) {
+            // 等待
+        }
+    }
+    // 解锁
+    public void myUnlock() {
+        Thread thread = Thread.currentThread();
+        System.out.println((thread.getName() + "===> myUnlock"));
+        atomicReference.compareAndSet(thread, null);
+    }
+
+    public static void main(String[] args) {
+        // 测试
+
+        SpinLock spinLock = new SpinLock();
+
+        new Thread(() -> {
+            spinLock.myLock();
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                spinLock.myUnlock();
+            }
+
+        },"T1").start();
+        new Thread(() -> {
+            spinLock.myLock();
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                spinLock.myUnlock();
+            }
+
+        },"T2").start();
+
+    }
+}
+```
+
 #### 4、死锁
+
+> 死锁：互相抢夺资源
+
+![image-20210309151549686](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309151549686.png).
+
+
+
+怎么排除死锁
+
+死锁代码：
+
+```Java
+package com.doublev.lock;
+
+import java.util.concurrent.TimeUnit;
+
+/**
+ * 死锁
+ */
+public class DeadLockDemo {
+    public static void main(String[] args) {
+        String lockA = "lockA";
+        String lockB = "lockB";
+        new Thread(new MyThread(lockA,lockB),"T1").start();
+        new Thread(new MyThread(lockB,lockA),"T2").start();
+    }
+
+}
+class MyThread implements Runnable {
+    private String lockA;
+    private String lockB;
+
+    public MyThread(String lockA, String lockB) {
+        this.lockA = lockA;
+        this.lockB = lockB;
+    }
+
+    @Override
+    public void run() {
+        synchronized (lockA) {
+            System.out.println((Thread.currentThread().getName() + " lock: " + lockA + " => get " + lockB));
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            synchronized (lockB) {
+                System.out.println((Thread.currentThread().getName() + " lock: " + lockB + " => get " + lockA));
+            }
+        }
+
+    }
+}
+```
+
+> 解决问题
+
+1、使用jps定位进程号
+
+``` she
+jsp -l
+```
+
+![image-20210309153448373](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309153448373.png).
+
+2、使用 jstack 查看信息
+
+```Shel
+jstack 进程号
+jstack 26344
+```
+
+![image-20210309153739044](https://gitee.com/doubleV/cloudimage/raw/master/juc/image-20210309153739044.png)
+
+分析堆栈信息，找出引起死锁的程序代码
